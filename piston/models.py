@@ -43,6 +43,8 @@ class Consumer(models.Model):
     status = models.CharField(max_length=16, choices=CONSUMER_STATES, default='pending')
     user = models.ForeignKey(User, null=True, blank=True, related_name='consumers')
 
+    disable_user_authorization = models.BooleanField(default=False)
+
     objects = ConsumerManager()
 
     def __unicode__(self):

@@ -194,6 +194,10 @@ def oauth_user_auth(request):
     if request.method == "GET":
         params = oauth_request.get_normalized_parameters()
 
+        if token.consumer.disable_user_authorization:
+            token = oauth_server.authorize_token(token, request.user)
+            return HttpResponseRedirect(token.get_callback_url())
+
         oauth_view = getattr(settings, 'OAUTH_AUTH_VIEW', None)
         if oauth_view is None:
             return oauth_auth_view(request, token, callback, params)
